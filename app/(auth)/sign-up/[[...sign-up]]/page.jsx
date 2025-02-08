@@ -1,7 +1,5 @@
-import { SignUp } from '@clerk/nextjs'
+import { SignUp } from "@clerk/nextjs";
 
 export default function Page() {
-  return <div className='flex justify-center py-32'>
-        <SignUp afterSignInUrl= "/onboarding"/>
-      </div>
+  return <SignUp />;
 }

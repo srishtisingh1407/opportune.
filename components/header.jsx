@@ -1,3 +1,5 @@
+
+
 import React from "react";
 import { Button } from "./ui/button";
 import {
@@ -19,12 +21,13 @@ import {
 import Image from "next/image";
 import { checkUser } from "@/lib/checkUser";
 
-const Header=async()=> {
+export default async function Header() {
   await checkUser();
+
   return (
     <header className="fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-50 supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <Link href="/">
+      <Link href="/">
           <h1 className="font-bold text-2xl">
             Opportune<span className="text-cyan-900 text-3xl">.</span>
           </h1>
@@ -39,7 +42,7 @@ const Header=async()=> {
                 className="hidden md:inline-flex items-center gap-2"
               >
                 <LayoutDashboard className="h-4 w-4" />
-                Market Trends
+                Industry Insights
               </Button>
               <Button variant="ghost" className="md:hidden w-10 h-10 p-0">
                 <LayoutDashboard className="h-4 w-4" />
@@ -51,7 +54,7 @@ const Header=async()=> {
               <DropdownMenuTrigger asChild>
                 <Button className="flex items-center gap-2">
                   <StarsIcon className="h-4 w-4" />
-                  <span className="hidden md:block">Success Tools</span>
+                  <span className="hidden md:block">Growth Tools</span>
                   <ChevronDown className="h-4 w-4" />
                 </Button>
               </DropdownMenuTrigger>
@@ -104,5 +107,3 @@ const Header=async()=> {
     </header>
   );
 }
-
-export default Header

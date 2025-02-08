@@ -31,9 +31,9 @@ const HeroSection = () => {
       <div className="space-y-6 text-center">
         <div className="space-y-6 mx-auto">
           <h1 className="text-5xl font-bold md:text-6xl lg:text-7xl xl:text-8xl gradient-title animate-gradient">
-            AI-Powered Career Guidance
+            Your AI Career Coach for
             <br />
-            -Path to Success
+            Professional Success
           </h1>
           <p className="mx-auto max-w-[600px] text-muted-foreground md:text-xl">
             Advance your career with personalized guidance, interview prep, and
@@ -41,14 +41,14 @@ const HeroSection = () => {
           </p>
         </div>
         <div className="flex justify-center space-x-4">
-          <Link href="/dashboard">
+          <Link href="/dahboard">
             <Button size="lg" className="px-8">
               Get Started
             </Button>
           </Link>
           <Link href="/onboarding">
             <Button size="lg" variant="outline" className="px-8">
-              On Boarding
+              onboarding
             </Button>
           </Link>
         </div>
