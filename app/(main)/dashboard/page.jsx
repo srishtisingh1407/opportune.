@@ -1,5 +1,9 @@
-const IndustryInsightsPage = () =>{
-    return <div>IndustryInsightsPage</div>
-}
+const IndustryInsightsPage = async () => {
+  const { isOnboarded } = await getUserOnboardingStatus();
+  if (isOnboarded) {
+    redirect("/dashboard");
+  }
+  return <div>IndustryInsightsPage</div>;
+};
 
-export default IndustryInsightsPage
+export default IndustryInsightsPage;
