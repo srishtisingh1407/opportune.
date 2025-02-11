@@ -7,14 +7,14 @@ import { redirect } from "next/navigation";
 const OnboardingPage = async () => {
   const { isOnboarded } = await getUserOnboardingStatus();
   if (isOnboarded) {
-    redirect("/dashboard");
+    redirect('/dashboard');
   }
 
   return (
     <main>
       <OnboardingForm industries={industries} />
     </main>
-  );
+  );  
 };
 
 export default OnboardingPage;
