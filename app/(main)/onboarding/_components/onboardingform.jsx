@@ -49,23 +49,34 @@ const OnboardingForm = ({ industries }) => {
         </CardHeader>
         <CardContent>
           <form action="">
-            <div>
-              <Label htmlFor="Industry">Industry :</Label>
-            </div>
-            <Select>
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select an Industry" />
-              </SelectTrigger>
-              <SelectContent>
-                {industries.map((ind) => {
-                  return (
-                    <SelectItem value={ind.id} key={ind.id}>
-                      {ind.name}
-                    </SelectItem>
+            <div className="space-y-2">
+              <Label htmlFor="Industry" className="">
+                Industry :
+              </Label>
+
+              <Select
+                onValueChange={(value) => {
+                  setValue("industry", value);
+                  setSelectedIndustry(
+                    industries.find((ind) => ind.id === value)
                   );
-                })}
-              </SelectContent>
-            </Select>
+                  setValue("subIndustry", "");
+                }}
+              >
+                <SelectTrigger className="w-[180px]" id="industry">
+                  <SelectValue placeholder="Select an Industry" />
+                </SelectTrigger>
+                <SelectContent>
+                  {industries.map((ind) => {
+                    return (
+                      <SelectItem value={ind.id} key={ind.id}>
+                        {ind.name}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+            </div>
           </form>
         </CardContent>
         <CardFooter>
