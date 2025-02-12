@@ -12,12 +12,19 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
 import { useRouter } from "next/router";
+import { Label } from "@/components/ui/label";
 
 const OnboardingForm = ({ industries }) => {
   const [selectedIndustry, setSelectedIndustry] = useState(null);
-
-  const router = useRouter();
 
   const {
     register,
@@ -29,14 +36,37 @@ const OnboardingForm = ({ industries }) => {
     resolver: zodResolver(oboardingSchema),
   });
   return (
-    <div>
-      <Card>
+    <div className="flex items-center justify-center bg-background">
+      <Card className="w-full max-w-lg mt-10 mx-2">
         <CardHeader>
-          <CardTitle>Card Title</CardTitle>
-          <CardDescription>Card Description</CardDescription>
+          <CardTitle className="gradient-title text-4xl">
+            Complete Your profile
+          </CardTitle>
+          <CardDescription>
+            Select yput industry to get a personalized career insights and
+            recommendations
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <p>Card Content</p>
+          <form action="">
+            <div>
+              <Label htmlFor="Industry">Industry :</Label>
+            </div>
+            <Select>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Select an Industry" />
+              </SelectTrigger>
+              <SelectContent>
+                {industries.map((ind) => {
+                  return (
+                    <SelectItem value={ind.id} key={ind.id}>
+                      {ind.name}
+                    </SelectItem>
+                  );
+                })}
+              </SelectContent>
+            </Select>
+          </form>
         </CardContent>
         <CardFooter>
           <p>Card Footer</p>
