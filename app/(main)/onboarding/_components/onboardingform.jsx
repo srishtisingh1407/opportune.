@@ -76,6 +76,36 @@ const OnboardingForm = ({ industries }) => {
                   })}
                 </SelectContent>
               </Select>
+              {errors.industry && (
+                <p className="text-sm text-red-500">
+                  {errors.industry.message}
+                </p>
+              )}
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="subIndustry" className="">
+                Industry :
+              </Label>
+
+              <Select onValueChange={(value) => setValue("subIndustry", value)}>
+                <SelectTrigger id="subIndustry">
+                  <SelectValue placeholder="Select an Industry" />
+                </SelectTrigger>
+                <SelectContent>
+                  {selectedIndustry?.subIndustries.map((ind) => {
+                    return (
+                      <SelectItem value={ind} key={ind}>
+                        {ind}
+                      </SelectItem>
+                    );
+                  })}
+                </SelectContent>
+              </Select>
+              {errors.industry && (
+                <p className="text-sm text-red-500">
+                  {errors.industry.message}
+                </p>
+              )}
             </div>
           </form>
         </CardContent>
