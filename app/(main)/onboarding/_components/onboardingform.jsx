@@ -20,12 +20,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-import { useRouter } from "next/router";
 import { Label } from "@/components/ui/label";
+import { useRouter } from "next/navigation";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 
 const OnboardingForm = ({ industries }) => {
   const [selectedIndustry, setSelectedIndustry] = useState(null);
 
+  const onSubmit = async (values) => {};
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -35,6 +39,8 @@ const OnboardingForm = ({ industries }) => {
   } = useForm({
     resolver: zodResolver(oboardingSchema),
   });
+
+  const watchIndustry = watch("industry");
   return (
     <div className="flex items-center justify-center bg-background">
       <Card className="w-full max-w-lg mt-10 mx-2">
@@ -48,7 +54,8 @@ const OnboardingForm = ({ industries }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action="">
+          <form action="" className="space-y-6" onSubmit={handleSubmit}>
+            {/* INDUSTRY  */}
             <div className="space-y-2">
               <Label htmlFor="Industry" className="">
                 Industry :
@@ -82,36 +89,109 @@ const OnboardingForm = ({ industries }) => {
                 </p>
               )}
             </div>
+
+            {/* INDUSTRY SPECIALIZATION  */}
+
+            {watchIndustry && (
+              <div className="space-y-2">
+                <Label htmlFor="Industry" className="">
+                  Specialization :
+                </Label>
+
+                <Select
+                  onValueChange={(value) => {
+                    setValue("subIndustry", value);
+                    setSelectedIndustry(
+                      industries.find((ind) => ind.id === value)
+                    );
+                    setValue("subIndustry", "");
+                  }}
+                >
+                  <SelectTrigger className="w-[180px]" id="subIndustry">
+                    <SelectValue placeholder="Select an Industry" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {selectedIndustry?.subIndustries.map((ind) => {
+                      return (
+                        <SelectItem value={ind} key={ind}>
+                          {ind}
+                        </SelectItem>
+                      );
+                    })}
+                  </SelectContent>
+                </Select>
+                {errors.industry && (
+                  <p className="text-sm text-red-500">
+                    {errors.subIndustry.message}
+                  </p>
+                )}
+              </div>
+            )}
+
+            {/* YEARS OF EXPERIENCE */}
+
             <div className="space-y-2">
-              <Label htmlFor="subIndustry" className="">
-                Industry :
+              <Label htmlFor="Industry" className="">
+                Years Of Experience :
               </Label>
 
-              <Select onValueChange={(value) => setValue("subIndustry", value)}>
-                <SelectTrigger id="subIndustry">
-                  <SelectValue placeholder="Select an Industry" />
-                </SelectTrigger>
-                <SelectContent>
-                  {selectedIndustry?.subIndustries.map((ind) => {
-                    return (
-                      <SelectItem value={ind} key={ind}>
-                        {ind}
-                      </SelectItem>
-                    );
-                  })}
-                </SelectContent>
-              </Select>
-              {errors.industry && (
+              <Input
+                id="experience"
+                type="number"
+                min="0"
+                max="50"
+                {...register("experience")}
+              ></Input>
+
+              {errors.experience && (
                 <p className="text-sm text-red-500">
-                  {errors.industry.message}
+                  {errors.experience.message}
                 </p>
+              )}
+            </div>
+
+            {/* SKILLS */}
+
+            <div className="space-y-2">
+              <Label htmlFor="skills" className="">
+                Skills
+              </Label>
+
+              <Input
+                id="skills"
+                placeholder="eg. c++, Javascript, python"
+                {...register("skills")}
+              ></Input>
+
+              <p className="text-sm text-muted-foreground">
+                !! Separate multiple skills with commas !!
+              </p>
+
+              {errors.skills && (
+                <p className="text-sm text-red-500">{errors.skills.message}</p>
+              )}
+            </div>
+
+            {/* BIO */}
+            <div className="space-y-2">
+              <Label htmlFor="bio" className="">
+                Professional Bio 
+              </Label>
+
+              <Textarea
+                id="bio"
+                placeholder="Tell us about professional background  "
+                className="h-32"
+                {...register("bio")}
+              ></Textarea>
+
+           
+              {errors.bio && (
+                <p className="text-sm text-red-500">{errors.bio.message}</p>
               )}
             </div>
           </form>
         </CardContent>
-        <CardFooter>
-          <p>Card Footer</p>
-        </CardFooter>
       </Card>
     </div>
   );
