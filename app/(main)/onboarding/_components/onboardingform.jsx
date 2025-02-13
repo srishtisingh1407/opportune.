@@ -24,11 +24,14 @@ import { Label } from "@/components/ui/label";
 import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Button } from "@/components/ui/button";
 
 const OnboardingForm = ({ industries }) => {
   const [selectedIndustry, setSelectedIndustry] = useState(null);
 
-  const onSubmit = async (values) => {};
+  const onSubmit = async (values) => {
+    console.log(values);
+  };
   const router = useRouter();
   const {
     register,
@@ -46,7 +49,7 @@ const OnboardingForm = ({ industries }) => {
       <Card className="w-full max-w-lg mt-10 mx-2">
         <CardHeader>
           <CardTitle className="gradient-title text-4xl">
-            Complete Your profile
+            Complete Your Profile :
           </CardTitle>
           <CardDescription>
             Select yput industry to get a personalized career insights and
@@ -54,7 +57,11 @@ const OnboardingForm = ({ industries }) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form action="" className="space-y-6" onSubmit={handleSubmit}>
+          <form
+            action=""
+            className="space-y-6"
+            onSubmit={handleSubmit(onSubmit)}
+          >
             {/* INDUSTRY  */}
             <div className="space-y-2">
               <Label htmlFor="Industry" className="">
@@ -99,13 +106,7 @@ const OnboardingForm = ({ industries }) => {
                 </Label>
 
                 <Select
-                  onValueChange={(value) => {
-                    setValue("subIndustry", value);
-                    setSelectedIndustry(
-                      industries.find((ind) => ind.id === value)
-                    );
-                    setValue("subIndustry", "");
-                  }}
+                  onValueChange={(value) => setValue("subIndustry", value)}
                 >
                   <SelectTrigger className="w-[180px]" id="subIndustry">
                     <SelectValue placeholder="Select an Industry" />
@@ -175,21 +176,23 @@ const OnboardingForm = ({ industries }) => {
             {/* BIO */}
             <div className="space-y-2">
               <Label htmlFor="bio" className="">
-                Professional Bio 
+                Professional Bio
               </Label>
 
               <Textarea
                 id="bio"
-                placeholder="Tell us about professional background  "
+                placeholder="Tell us about professional background...  "
                 className="h-32"
                 {...register("bio")}
               ></Textarea>
 
-           
               {errors.bio && (
                 <p className="text-sm text-red-500">{errors.bio.message}</p>
               )}
             </div>
+            <Button className="w-full" type="submit">
+              Complete Profile
+            </Button>
           </form>
         </CardContent>
       </Card>
