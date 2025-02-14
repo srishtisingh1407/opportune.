@@ -25,14 +25,20 @@ import { useRouter } from "next/navigation";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
+import useFetch from "@/hooks/use-fetch";
+import { updateUser } from "@/actions/user";
 
 const OnboardingForm = ({ industries }) => {
   const [selectedIndustry, setSelectedIndustry] = useState(null);
 
-  const onSubmit = async (values) => {
-    console.log(values);
-  };
   const router = useRouter();
+
+  const {
+    loading: updateLoading,
+    fn: updateUserfn,
+    data: updateResult,
+  } = useFetch(updateUser);
+
   const {
     register,
     handleSubmit,
@@ -42,6 +48,13 @@ const OnboardingForm = ({ industries }) => {
   } = useForm({
     resolver: zodResolver(oboardingSchema),
   });
+  const onSubmit = async (values) => {
+    try {
+      const formattedIndustry = `${values.industry}-${values.subIndustry
+        .toLowerCase()
+        .replace(/ /g, "-")}`;
+    } catch (error) {}
+  };
 
   const watchIndustry = watch("industry");
   return (
