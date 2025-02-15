@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { oboardingSchema } from "@/app/lib/schema";
@@ -27,6 +27,8 @@ import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import useFetch from "@/hooks/use-fetch";
 import { updateUser } from "@/actions/user";
+import { toast } from "sonner";
+import { Loader } from "lucide-react";
 
 const OnboardingForm = ({ industries }) => {
   const [selectedIndustry, setSelectedIndustry] = useState(null);
@@ -54,15 +56,21 @@ const OnboardingForm = ({ industries }) => {
         .toLowerCase()
         .replace(/ /g, "-")}`;
 
-        await updateUserfn({
-          ...values,
-          industry: formattedIndustry
-        })
+      await updateUserfn({
+        ...values,
+        industry: formattedIndustry,
+      });
     } catch (error) {
-      console.log("onBoarding error: ",error);
-      
+      console.log("onBoarding error: ", error);
     }
   };
+
+  useEffect(() => {
+    if (updateResult?.success && !updateLoading) {
+      toast.success("Profile completed successfully");
+      router.refresh();
+    }
+  }, [updateResult, updateLoading]);
 
   const watchIndustry = watch("industry");
   return (
@@ -211,8 +219,14 @@ const OnboardingForm = ({ industries }) => {
                 <p className="text-sm text-red-500">{errors.bio.message}</p>
               )}
             </div>
-            <Button className="w-full" type="submit">
-              Complete Profile
+            <Button className="w-full" type="submit" disabled={updateLoading}>
+              {updateLoading ? (
+                <>
+                  <Loader className="mr-2 h-4 w-4 animate-spin" /> Saving
+                </>
+              ) : (
+                " Complete Profile"
+              )}
             </Button>
           </form>
         </CardContent>

@@ -1,6 +1,6 @@
+"use client"; // Ensure this is a Client Component
 
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 import {
   PenBox,
@@ -18,16 +18,28 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import Image from "next/image";
 import { checkUser } from "@/lib/checkUser";
 
-export default async function Header() {
-  await checkUser();
+export default function Header() {
+  const [userId, setUserId] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const id = await checkUser();
+        setUserId(id);
+      } catch (error) {
+        console.error("User not authenticated", error);
+      }
+    }
+
+    fetchUser();
+  }, []);
 
   return (
     <header className="fixed top-0 w-full border-b bg-background/80 backdrop-blur-md z-50 supports-[backdrop-filter]:bg-background/60">
       <nav className="container mx-auto px-4 h-16 flex items-center justify-between">
-      <Link href="/">
+        <Link href="/">
           <h1 className="font-bold text-2xl">
             Opportune<span className="text-cyan-900 text-3xl">.</span>
           </h1>
@@ -66,10 +78,7 @@ export default async function Header() {
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild>
-                  <Link
-                    href="/ai-cover-letter"
-                    className="flex items-center gap-2"
-                  >
+                  <Link href="/ai-cover-letter" className="flex items-center gap-2">
                     <PenBox className="h-4 w-4" />
                     Cover Letter
                   </Link>
